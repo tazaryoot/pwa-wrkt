@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "71cc96d4db157943c39c71f2667372f7",
+    "revision": "a42c873a2402293e561d4d48e9007232",
     "url": "/pwa-wrkt/index.html"
   },
   {
-    "revision": "d8cac56b3892cd261df2",
-    "url": "/pwa-wrkt/static/css/main.8ab6f918.chunk.css"
+    "revision": "61b73b84e51763e2627b",
+    "url": "/pwa-wrkt/static/css/main.d1b05096.chunk.css"
   },
   {
     "revision": "f3f3c9a7771cb2425256",
@@ -16,15 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pwa-wrkt/static/js/2.cbc3c4a9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d8cac56b3892cd261df2",
-    "url": "/pwa-wrkt/static/js/main.ac0b8d77.chunk.js"
+    "revision": "61b73b84e51763e2627b",
+    "url": "/pwa-wrkt/static/js/main.6a918053.chunk.js"
   },
   {
     "revision": "6449ca947ecfda1a7447",
     "url": "/pwa-wrkt/static/js/runtime-main.cd2f2219.js"
   },
   {
-    "revision": "ee7cd8ed2dcec943251eb2763684fc6f",
-    "url": "/pwa-wrkt/static/media/logo.ee7cd8ed.svg"
+    "revision": "5d5d9eefa31e5e13a6610d9fa7a283bb",
+    "url": "/pwa-wrkt/static/media/logo.5d5d9eef.svg"
   }
 ]);
