@@ -26,4 +26,4 @@ jobs:
           git config --global user.name "tazaryoot"
           git remote set-url origin https://${{ secrets.ACTIONS_TOKEN }}@github.com/tazaryoot/pwa-wrkt.git
           npm run deploy
-          npm test
+          npm test a
