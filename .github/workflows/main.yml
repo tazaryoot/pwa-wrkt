@@ -20,6 +20,8 @@ jobs:
         run: npm install
       - name: Testing
         run: npm run test
+        env:
+          CI: true
         
   build:
 
