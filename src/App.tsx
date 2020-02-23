@@ -12,7 +12,7 @@ const App = () => (
     <Layout>
       <Switch>
         <Route exact path="/" component={ExerciseList} />
-        <Route exact path="/exercise:code" component={Exercise} />
+        <Route exact path="/exercise/:code" component={Exercise} />
       </Switch>
     </Layout>
   </Router>
