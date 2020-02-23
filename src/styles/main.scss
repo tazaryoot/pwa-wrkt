@@ -1,6 +1,13 @@
 @import "./variables";
 @import "./reboot";
 
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -18,4 +25,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
+}
+
+#root {
+  height: 100%;
 }
