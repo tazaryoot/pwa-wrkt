@@ -70,7 +70,7 @@ const Goals = () => {
           })
         }
       </ul>
-      <button onClick={clickHandler}>Add goal</button>
+      <Link to="/add-goal">Add goal</Link>
     </>
   )
 };
