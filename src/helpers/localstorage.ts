@@ -2,7 +2,7 @@ export const setToLS = (key: string, data: Record<string, any>): void => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const getFromLS = (key: string): object => {
+export const getFromLS = <T>(key: string): T => {
   const dataFromLS = localStorage.getItem(key);
   let result;
   if (dataFromLS != null) {
