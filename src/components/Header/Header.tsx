@@ -6,9 +6,20 @@ import './Header.scss';
 
 const Header = () => {
   return (
-    <header>
-      <NavLink activeClassName="active" to="/">exerciseList</NavLink>
-      <NavLink activeClassName="active" to="/exercise">exercise</NavLink>
+    <header className="wrkt-header">
+      <NavLink
+        exact
+        activeClassName="active-nav-link"
+        to="/"
+      >
+        Goal List
+      </NavLink>
+      <NavLink
+        activeClassName="active-nav-link"
+        to="/goal"
+      >
+        Goal
+      </NavLink>
     </header>
   )
 };

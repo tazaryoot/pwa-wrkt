@@ -30,3 +30,9 @@ code {
 #root {
   height: 100%;
 }
+
+.active-nav-link {
+  color: #fff;
+  text-decoration: none;
+  pointer-events: none;
+}
