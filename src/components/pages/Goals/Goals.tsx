@@ -41,7 +41,7 @@ const Goals = () => {
 
   useEffect(() => {
     const key = 'main-list';
-    const list = ls.getFromLS<GoalItem[]>(key);
+    const list = ls.getFromLS<GoalItem[]>(key) || [];
 
     dispatch({
       type: 'GET_GOAL_LIST',
