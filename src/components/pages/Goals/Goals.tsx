@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ls from '../../../helpers/localstorage';
-import { GoalListContext, GoalItem, GoalsList } from '../../../reducers/goals';
+import { GoalListContext, GoalsList } from '../../../reducers/goals';
 
 
 const Goals = () => {
@@ -12,7 +12,6 @@ const Goals = () => {
     const key = 'main-list';
     const list = ls.getFromLS<GoalsList>(key) || {};
 
-    console.log('>>>>>> list:', list);
     dispatch({
       type: 'GET_GOAL_LIST',
       payload: list
@@ -20,7 +19,7 @@ const Goals = () => {
 
   }, []);
 
-  console.log('>>>>>> goalList:',goalList );
+
   let goalCodes: string[] = [];
   if (goalList) {
     goalCodes = Object.keys(goalList);
