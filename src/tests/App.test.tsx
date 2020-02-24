@@ -4,6 +4,6 @@ import App from '../App';
 
 test('renders ExerciseList', () => {
   const { getByText } = render(<App />);
-  const text = getByText(/ExerciseList/);
+  const text = getByText(/Push-Ups/);
   expect(text).toBeInTheDocument();
 });
