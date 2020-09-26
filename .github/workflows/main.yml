@@ -43,7 +43,7 @@ jobs:
         env:
           CI: false
         run: |
-          git config --global user.email "${{ACTION_EMAIL}}"
-          git config --global user.name "${{ACTION_USER_NAME}}"
+          git config --global user.email "${{ secrets.ACTION_EMAIL }}"
+          git config --global user.name "${{ secrets.ACTION_USER_NAME }}"
           git remote set-url origin https://${{ secrets.ACTIONS_TOKEN }}@github.com/tazaryoot/pwa-wrkt.git
           npm run deploy
