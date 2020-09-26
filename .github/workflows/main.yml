@@ -5,12 +5,12 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [12.x, 13.x]
-        
-    steps: 
+
+    steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -22,7 +22,7 @@ jobs:
         run: npm run test
         env:
           CI: true
-        
+
   build:
 
     runs-on: ubuntu-latest
@@ -32,6 +32,8 @@ jobs:
         node-version: [12.x]
 
     steps:
+      env:
+        CI: false
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
