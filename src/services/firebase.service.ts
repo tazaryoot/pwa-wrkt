@@ -5,7 +5,8 @@ import { GoalItem } from '../reducers/goals';
 
 
 interface FirebaseGoalItem extends Omit<GoalItem, 'date'> {
-  date: firebase.firestore.Timestamp
+  date: firebase.firestore.Timestamp;
+  desc: string;
 }
 
 const firebaseConfig = {
