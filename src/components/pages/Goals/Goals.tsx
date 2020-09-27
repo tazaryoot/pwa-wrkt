@@ -1,42 +1,61 @@
-import React, { useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import * as ls from '../../../helpers/localstorage';
-import { GoalListContext, GoalsList } from '../../../reducers/goals';
+import FirebaseContext from '../../../contexts/firebase';
+import { GoalItem, GoalListContext } from '../../../reducers/goals';
+import FirebaseService from '../../../services/firebase.service';
 
 
-const Goals = () => {
-  const { state: goalList, dispatch } = useContext(GoalListContext);
+const Goals: FC = () => {
+  const { state: goalsState, dispatch } = useContext(GoalListContext);
+  const firebase: FirebaseService = useContext(FirebaseContext);
 
   useEffect(() => {
-    const key = 'main-list';
-    const list = ls.getFromLS<GoalsList>(key) || {};
+    (async () => {
+      if (!goalsState.isLoaded) {
+        dispatch({
+          type: 'FETCH_GOAL_LIST',
+        })
 
-    dispatch({
-      type: 'GET_GOAL_LIST',
-      payload: list
-    })
+        try {
+          const docs: GoalItem[] = await firebase.getGoals() || [];
 
+          dispatch({
+            type: 'FETCH_GOAL_LIST_SUCCESS',
+            payload: docs
+          })
+
+        } catch (e) {
+          dispatch({
+            type: 'FETCH_GOAL_LIST_ERROR',
+            error: e.toString(),
+          })
+        }
+
+      }
+    })()
   }, []);
 
-
-  let goalCodes: string[] = [];
-  if (goalList) {
-    goalCodes = Object.keys(goalList);
+  if (!goalsState.isLoaded) {
+    return null;
   }
 
   return (
     <>
       <ul className="unstyled-list">
         {
-          !!goalCodes.length && goalCodes.map((x: string) => {
-            const { code, title } = goalList[x];
+          !!goalsState.goalList.length && goalsState.goalList.map(({code, title}) => {
             return (
               <li key={code}>
                 <Link to={`/goal/${code}`}>{title}</Link>
               </li>
             )
           })
+        }
+        {
+          !goalsState.goalList.length && (
+            <div>Goal list is empty</div>
+          )
         }
       </ul>
       <Link to="/add-goal">Add goal</Link>

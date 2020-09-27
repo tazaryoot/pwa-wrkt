@@ -4,6 +4,6 @@ import App from '../App';
 
 test('renders Goals', () => {
   const { getByText } = render(<App />);
-  const text = getByText(/goal/);
+  const text = getByText(/Goal List/);
   expect(text).toBeInTheDocument();
 });

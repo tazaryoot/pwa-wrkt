@@ -5,39 +5,69 @@ export interface GoalItem {
   code: string;
 }
 
-export type GoalsList = Record<string, GoalItem>;
-
-export type Action =
-  | { type: 'ADD_GOAL', payload: GoalsList }
-  | { type: 'GET_GOAL_LIST', payload: GoalsList};
-
 export interface GoalsContext {
-  state?: GoalsList,
-  dispatch?: Dispatch<Action>
+  state: GoalsState,
+  dispatch: Dispatch<GoalsAction>
 }
+
+export type GoalsState = {
+  isLoaded: boolean;
+  goalList: GoalItem[];
+  isLoading: boolean;
+  error: string;
+};
+
+export type GoalsAction =
+  | { type: 'ADD_GOAL', payload: GoalItem }
+  | { type: 'FETCH_GOAL_LIST',}
+  | { type: 'FETCH_GOAL_LIST_ERROR', error: string}
+  | { type: 'FETCH_GOAL_LIST_SUCCESS', payload: GoalItem[]};
 
 
 const ADD_GOAL = 'ADD_GOAL';
-const GET_GOAL_LIST = 'GET_GOAL_LIST';
+const FETCH_GOAL_LIST = 'FETCH_GOAL_LIST';
+const FETCH_GOAL_LIST_SUCCESS = 'FETCH_GOAL_LIST_SUCCESS';
+const FETCH_GOAL_LIST_ERROR = 'FETCH_GOAL_LIST_ERROR';
 
-export const initialState: GoalsList = {};
+export const initialState: GoalsState = {
+  isLoaded: false,
+  isLoading: false,
+  goalList: [],
+  error: '',
+};
 
-const initialContext: any = {};
+const initialContext: GoalsContext = {} as GoalsContext;
 
 export const GoalListContext = createContext(initialContext);
 
-export const reducer = (state: GoalsList, action: Action): GoalsList => {
+export const reducer = (state: GoalsState, action: GoalsAction): GoalsState => {
   switch (action.type) {
-    case GET_GOAL_LIST:
+    case FETCH_GOAL_LIST:
       return ({
         ...state,
-        ...action.payload,
+        isLoading: true,
+        isLoaded: false,
+        error: '',
+      });
+    case FETCH_GOAL_LIST_SUCCESS:
+      return ({
+        ...state,
+        goalList: action.payload,
+        isLoading: false,
+        isLoaded: true,
       });
     case ADD_GOAL:
       return ({
         ...state,
         ...action.payload,
       });
+    case FETCH_GOAL_LIST_ERROR:
+      return ({
+        ...state,
+        isLoading: false,
+        isLoaded: false,
+        error: action.error,
+      })
     default:
       return {...state};
   }
