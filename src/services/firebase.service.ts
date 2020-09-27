@@ -1,7 +1,12 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+
 import { GoalItem } from '../reducers/goals';
 
+
+interface FirebaseGoalItem extends Omit<GoalItem, 'date'> {
+  date: firebase.firestore.Timestamp
+}
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -21,6 +26,7 @@ export interface WRKTFirebase {
 
 class FirebaseService implements WRKTFirebase {
   private db: firebase.firestore.Firestore;
+  private collectionName = 'goals';
 
   constructor() {
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
@@ -30,17 +36,29 @@ class FirebaseService implements WRKTFirebase {
 
   getGoals(): Promise<GoalItem[] | null> {
     return this.db
-      .collection('goals')
+      .collection(this.collectionName)
+      .orderBy('date', 'asc')
       .get()
       .then((querySnapshot) => {
         if (querySnapshot.empty) {
           return null;
         }
 
-        const docs: GoalItem[] = [];
+        const firebaseDoc: FirebaseGoalItem[] = [];
 
         querySnapshot.forEach((doc) => {
-          docs.push(doc.data() as GoalItem);
+          firebaseDoc.push(doc.data() as FirebaseGoalItem);
+        })
+
+        const docs: GoalItem[] = firebaseDoc.map(doc => {
+          const { code, date, desc, title } = doc;
+
+          return ({
+            date: date.toDate().toLocaleDateString(),
+            code,
+            title,
+            desc,
+          })
         })
 
         return docs;
