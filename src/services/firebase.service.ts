@@ -23,12 +23,13 @@ const firebaseConfig = {
 export interface WRKTDatabaseService {
   getGoals(): Promise<GoalItem[] | null>;
   addGoal(goal: GoalItem): Promise<void>;
+  deleteGoal(id: string): Promise<void>;
 }
 
 
 class FirebaseService implements WRKTDatabaseService {
   private db: firebase.firestore.Firestore;
-  private collectionName = 'goals';
+  private collectionGoals = 'goals';
 
   constructor() {
     !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
@@ -38,7 +39,7 @@ class FirebaseService implements WRKTDatabaseService {
 
   getGoals(): Promise<GoalItem[] | null> {
     return this.db
-      .collection(this.collectionName)
+      .collection(this.collectionGoals)
       .orderBy('date', 'asc')
       .get()
       .then((querySnapshot) => {
@@ -49,11 +50,11 @@ class FirebaseService implements WRKTDatabaseService {
         const firebaseDoc: FirebaseGoalItem[] = [];
 
         querySnapshot.forEach((doc) => {
-          const docData: Omit<FirebaseGoalItem, 'id'> = doc.data() as Omit<FirebaseGoalItem, 'id'>;
+          const docData: FirebaseGoalItem = doc.data() as FirebaseGoalItem;
 
           const firebaseDocItem: FirebaseGoalItem = {
-            id: doc.id,
             ...docData,
+            id: doc.id,
           }
 
           firebaseDoc.push(firebaseDocItem);
@@ -78,8 +79,7 @@ class FirebaseService implements WRKTDatabaseService {
 
   addGoal(goal: GoalItem): Promise<void> {
     const { desc = '', title, code } = goal;
-    const firebaseGoal: FirebaseGoalItem = {
-      id: code,
+    const firebaseGoal: Omit<FirebaseGoalItem, 'id'> = {
       desc,
       code,
       title,
@@ -87,9 +87,17 @@ class FirebaseService implements WRKTDatabaseService {
     }
 
     return this.db
-      .collection(this.collectionName)
+      .collection(this.collectionGoals)
       .doc()
       .set(firebaseGoal);
+  }
+
+
+  deleteGoal(id: string): Promise<void> {
+    return this.db
+      .collection(this.collectionGoals)
+      .doc(id)
+      .delete();
   }
 }
 
