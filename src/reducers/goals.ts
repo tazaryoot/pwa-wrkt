@@ -3,6 +3,8 @@ import { createContext, Dispatch } from 'react';
 export interface GoalItem {
   title: string;
   code: string;
+  date: string;
+  desc?: string;
 }
 
 export interface GoalsContext {
@@ -21,13 +23,15 @@ export type GoalsAction =
   | { type: 'ADD_GOAL', payload: GoalItem }
   | { type: 'FETCH_GOAL_LIST',}
   | { type: 'FETCH_GOAL_LIST_ERROR', error: string}
-  | { type: 'FETCH_GOAL_LIST_SUCCESS', payload: GoalItem[]};
+  | { type: 'FETCH_GOAL_LIST_SUCCESS', payload: GoalItem[]}
+  | { type: 'CLEAR_GOAL_LIST',};
 
 
 const ADD_GOAL = 'ADD_GOAL';
 const FETCH_GOAL_LIST = 'FETCH_GOAL_LIST';
 const FETCH_GOAL_LIST_SUCCESS = 'FETCH_GOAL_LIST_SUCCESS';
 const FETCH_GOAL_LIST_ERROR = 'FETCH_GOAL_LIST_ERROR';
+const CLEAR_GOAL_LIST = 'CLEAR_GOAL_LIST';
 
 export const initialState: GoalsState = {
   isLoaded: false,
@@ -67,6 +71,10 @@ export const reducer = (state: GoalsState, action: GoalsAction): GoalsState => {
         isLoading: false,
         isLoaded: false,
         error: action.error,
+      })
+    case CLEAR_GOAL_LIST:
+      return ({
+        ...initialState
       })
     default:
       return {...state};

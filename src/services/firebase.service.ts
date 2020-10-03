@@ -22,6 +22,7 @@ const firebaseConfig = {
 
 export interface WRKTFirebase {
   getGoals(): Promise<GoalItem[] | null>;
+  addGoal(goal: GoalItem): Promise<void>;
 }
 
 
@@ -65,6 +66,22 @@ class FirebaseService implements WRKTFirebase {
         return docs;
       });
   };
+
+
+  addGoal(goal: GoalItem): Promise<void> {
+    const { desc = '', title, code } = goal;
+    const firebaseGoal: FirebaseGoalItem = {
+      desc,
+      code,
+      title,
+      date: firebase.firestore.Timestamp.fromDate(new Date()),
+    }
+
+    return this.db
+      .collection(this.collectionName)
+      .doc()
+      .set(firebaseGoal);
+  }
 }
 
 
