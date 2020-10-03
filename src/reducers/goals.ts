@@ -1,6 +1,7 @@
 import { createContext, Dispatch } from 'react';
 
 export interface GoalItem {
+  id: string;
   title: string;
   code: string;
   date: string;

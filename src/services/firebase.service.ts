@@ -20,13 +20,13 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-export interface WRKTFirebase {
+export interface WRKTDatabaseService {
   getGoals(): Promise<GoalItem[] | null>;
   addGoal(goal: GoalItem): Promise<void>;
 }
 
 
-class FirebaseService implements WRKTFirebase {
+class FirebaseService implements WRKTDatabaseService {
   private db: firebase.firestore.Firestore;
   private collectionName = 'goals';
 
@@ -49,14 +49,22 @@ class FirebaseService implements WRKTFirebase {
         const firebaseDoc: FirebaseGoalItem[] = [];
 
         querySnapshot.forEach((doc) => {
-          firebaseDoc.push(doc.data() as FirebaseGoalItem);
+          const docData: Omit<FirebaseGoalItem, 'id'> = doc.data() as Omit<FirebaseGoalItem, 'id'>;
+
+          const firebaseDocItem: FirebaseGoalItem = {
+            id: doc.id,
+            ...docData,
+          }
+
+          firebaseDoc.push(firebaseDocItem);
         })
 
         const docs: GoalItem[] = firebaseDoc.map(doc => {
-          const { code, date, desc, title } = doc;
+          const { code, date, desc, title, id } = doc;
 
           return ({
             date: date.toDate().toLocaleDateString(),
+            id,
             code,
             title,
             desc,
@@ -71,6 +79,7 @@ class FirebaseService implements WRKTFirebase {
   addGoal(goal: GoalItem): Promise<void> {
     const { desc = '', title, code } = goal;
     const firebaseGoal: FirebaseGoalItem = {
+      id: code,
       desc,
       code,
       title,

@@ -1,8 +1,9 @@
 import React, { FC, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import getGoalsAction from '../../../actions/get-goals.action';
 
 import FirebaseContext from '../../../contexts/firebase';
-import { GoalItem, GoalListContext } from '../../../reducers/goals';
+import { GoalListContext } from '../../../reducers/goals';
 import FirebaseService from '../../../services/firebase.service';
 
 
@@ -13,25 +14,7 @@ const Goals: FC = () => {
   useEffect(() => {
     (async () => {
       if (!goalsState.isLoaded) {
-        dispatch({
-          type: 'FETCH_GOAL_LIST',
-        })
-
-        try {
-          const docs: GoalItem[] = await firebase.getGoals() || [];
-
-          dispatch({
-            type: 'FETCH_GOAL_LIST_SUCCESS',
-            payload: docs
-          })
-
-        } catch (e) {
-          dispatch({
-            type: 'FETCH_GOAL_LIST_ERROR',
-            error: e.toString(),
-          })
-        }
-
+        await getGoalsAction(dispatch, firebase);
       }
     })()
   }, []);
