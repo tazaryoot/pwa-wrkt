@@ -1,9 +1,10 @@
 import React, { FC, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FirebaseContext } from '../../../contexts/firebase';
+import useDatabase from '../../../hooks/useDatabase';
 import useIdGen from '../../../hooks/useIdGen';
 import { GoalItem, GoalListContext } from '../../../reducers/goals';
+import { WRKTDatabaseService } from '../../../services/firebase.service';
 
 
 type AddGoalItem = Omit<GoalItem, 'code'>;
@@ -13,8 +14,7 @@ const AddGoal: FC = () => {
   const { register, handleSubmit, errors, reset } = useForm();
   const { dispatch } = useContext(GoalListContext);
   const code = useIdGen();
-
-  const firebase = useContext(FirebaseContext);
+  const firebase: WRKTDatabaseService = useDatabase();
 
   const addGoal = async (data: AddGoalItem) =>  {
     const newGoal: GoalItem = {

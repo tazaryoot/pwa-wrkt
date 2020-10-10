@@ -1,15 +1,15 @@
 import React, { FC, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import getGoalsAction from '../../../actions/get-goals.action';
 
-import { FirebaseContext } from '../../../contexts/firebase';
+import getGoalsAction from '../../../actions/get-goals.action';
+import useDatabase from '../../../hooks/useDatabase';
 import { GoalListContext } from '../../../reducers/goals';
-import FirebaseService from '../../../services/firebase.service';
+import { WRKTDatabaseService } from '../../../services/firebase.service';
 
 
 const Goals: FC = () => {
   const { state: goalsState, dispatch } = useContext(GoalListContext);
-  const firebase: FirebaseService = useContext(FirebaseContext);
+  const firebase: WRKTDatabaseService = useDatabase();
 
   useEffect(() => {
     (async () => {

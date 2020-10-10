@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import getGoalsAction from '../../../actions/get-goals.action';
-import { FirebaseContext } from '../../../contexts/firebase';
+import useDatabase from '../../../hooks/useDatabase';
 import { GoalItem, GoalListContext } from '../../../reducers/goals';
-import FirebaseService from '../../../services/firebase.service';
+import { WRKTDatabaseService } from '../../../services/firebase.service';
 
 import './style.scss';
 
@@ -13,7 +13,7 @@ const Goal = () => {
   const { code } = useParams();
   const history = useHistory();
   const { state: goalsState, dispatch } = useContext(GoalListContext);
-  const firebase: FirebaseService = useContext(FirebaseContext);
+  const firebase: WRKTDatabaseService = useDatabase();
 
   useEffect(() => {
     (async () => {
