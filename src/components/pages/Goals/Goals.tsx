@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import getGoalsAction from '../../../actions/get-goals.action';
 
-import FirebaseContext from '../../../contexts/firebase';
+import { FirebaseContext } from '../../../contexts/firebase';
 import { GoalListContext } from '../../../reducers/goals';
 import FirebaseService from '../../../services/firebase.service';
 

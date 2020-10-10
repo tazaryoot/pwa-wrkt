@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
-import FirebaseContext from '../../../contexts/firebase';
+import { FirebaseContext } from '../../../contexts/firebase';
 import useIdGen from '../../../hooks/useIdGen';
 import { GoalItem, GoalListContext } from '../../../reducers/goals';
 

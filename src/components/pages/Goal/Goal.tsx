@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
 
 import getGoalsAction from '../../../actions/get-goals.action';
-import FirebaseContext from '../../../contexts/firebase';
+import { FirebaseContext } from '../../../contexts/firebase';
 import { GoalItem, GoalListContext } from '../../../reducers/goals';
 import FirebaseService from '../../../services/firebase.service';
 
@@ -24,7 +24,7 @@ const Goal = () => {
   }, []);
 
   if (!goalsState.isLoaded) {
-    return null;
+    return <div>Goal not found</div>;
   }
 
   const deleteGoal = async (): Promise<unknown> => {
